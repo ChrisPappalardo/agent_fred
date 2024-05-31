@@ -1,0 +1,10 @@
+Relevant Federal Reserve Economic Data is:
+{% for document in documents %}
+    {{ document.content }}
+{% endfor %}
+
+The conversation so far has been:
+{{ history }}
+
+Answer the following question:
+{{ question }}

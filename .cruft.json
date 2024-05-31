@@ -1,0 +1,18 @@
+{
+  "template": "https://github.com/woltapp/wolt-python-package-cookiecutter",
+  "commit": "7cf131315aae15890e44411c9fcecdbb584dca48",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "author_name": "Chris Pappalardo",
+      "author_email": "cpappala@gmail.com",
+      "github_username": "ChrisPappalardo",
+      "project_name": "agent_fred",
+      "project_slug": "agent_fred",
+      "package_name": "agent_fred",
+      "project_short_description": "LLM agent interface for Federal Reserve Economic Data",
+      "_template": "https://github.com/woltapp/wolt-python-package-cookiecutter"
+    }
+  },
+  "directory": null
+}
