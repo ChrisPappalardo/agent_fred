@@ -55,7 +55,9 @@ Answer:
     text_embedder = OllamaTextEmbedder(model="phi3")  # for query
     retriever = InMemoryEmbeddingRetriever(document_store=document_store)
     prompt_builder = PromptBuilder(template=prompt_template)
-    generator = OllamaGenerator(model="phi3")
+    generator = OllamaGenerator(
+        model="phi3", generation_kwargs={"temperature": 0.0},
+    )
 
     # create pipeline
     pipeline = Pipeline()
