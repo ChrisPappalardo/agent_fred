@@ -5,12 +5,15 @@ from pprint import PrettyPrinter
 from agent_fred.core import load_prompt, xlsx_to_haystack_docs
 from agent_fred.pipelines import rag_pipeline
 
+debug = os.environ.get("RAG_DEBUG", False)
+prompt_filename = os.environ.get("RAG_PROMPT", "src/agent_fred/prompts/rag.txt")
+embedding_model = os.environ.get("RAG_EMBEDDINGS", "phi3")
+llm = os.environ.get("RAG_LLM", "phi3")
+temperature = os.environ.get("RAG_TEMPERATURE", 0.0)
 
-if debug := os.environ.get("RAG_DEBUG", None) is not None:
+if debug:
     logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logging.WARNING)
     logging.getLogger("haystack").setLevel(logging.INFO)
-
-prompt_filename = os.environ.get("RAG_PROMPT", "src/agent_fred/prompts/rag.txt")
 
 
 if __name__ == "__main__":
@@ -28,10 +31,10 @@ if __name__ == "__main__":
     pipeline = rag_pipeline(
         documents=documents,
         prompt_template=load_prompt(prompt_filename),
-        embedding_kwargs={"model": "phi3"},
+        embedding_kwargs={"model": embedding_model},
         llm_kwargs={
-            "model": "phi3",
-            "generation_kwargs": {"temperature": 0.0},
+            "model": llm,
+            "generation_kwargs": {"temperature": float(temperature)},
         },
     )
 
