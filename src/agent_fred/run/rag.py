@@ -12,11 +12,15 @@ llm = os.environ.get("RAG_LLM", "phi3")
 temperature = os.environ.get("RAG_TEMPERATURE", 0.0)
 
 if debug:
-    logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logging.WARNING)
+    logging.basicConfig(
+        format="%(levelname)s - %(name)s -  %(message)s", level=logging.WARNING
+    )
     logging.getLogger("haystack").setLevel(logging.INFO)
 
 
 if __name__ == "__main__":
+    print(f"using {embedding_model} for embeddings and {llm} for chat")
+
     # get xlsx filename from user
     default_filename = "tests/test_data/GDPC1_1.xls"
     filename = input(f"load [{default_filename}]: ") or default_filename
@@ -41,8 +45,10 @@ if __name__ == "__main__":
     # loop for q&a
     while True:
         question = input("Question: ")
-        response = pipeline.run({
-            "prompt_builder": {"question": question},
-            "text_embedder": {"text": question},
-        })
+        response = pipeline.run(
+            {
+                "prompt_builder": {"question": question},
+                "text_embedder": {"text": question},
+            }
+        )
         print(response["llm"]["replies"][0])

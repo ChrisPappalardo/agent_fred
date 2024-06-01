@@ -7,7 +7,7 @@ from haystack import Document
 
 def load_prompt(filename: str) -> str:
     """load and return prompt template"""
-    with open(filename, "r") as f:
+    with open(filename) as f:
         return f.read()
 
 
@@ -15,10 +15,16 @@ def xlsx_to_serialized_list(filename: str) -> list[dict[str, Any]]:
     """parse excel spreadsheet and return serialized list of cells"""
     result = []
     for (
-        table, excel_rc, name, sheet,
+        table,
+        excel_rc,
+        name,
+        sheet,
     ) in get_df_from_file(filename, loose=False):
         for row in df_serialize_table(
-            table, name=name, sheet=sheet, f_name=filename,
+            table,
+            name=name,
+            sheet=sheet,
+            f_name=filename,
         ):
             result.append(row)
 
@@ -39,10 +45,16 @@ def xlsx_to_db(filename: str) -> None:
     """parse excel spreadsheet into in-memory sqlite database"""
     db = i_factory("sqlite3:///:memory:", ExcelParse)
     for (
-        table, excel_rc, name, sheet,
+        table,
+        excel_rc,
+        name,
+        sheet,
     ) in get_df_from_file(filename, loose=False):
         db.output(
             df_serialize_table(
-                table, name=name, sheet=sheet, f_name=filename,
+                table,
+                name=name,
+                sheet=sheet,
+                f_name=filename,
             ),
         )

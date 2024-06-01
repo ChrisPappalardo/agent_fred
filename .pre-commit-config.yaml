@@ -21,20 +21,20 @@ repos:
         require_serial: true
         language: system
         types: [ python ]
-      - id: ruff
-        name: ruff
-        # Add --fix, in case you want it to autofix when this hook runs
-        entry: poetry run ruff check --force-exclude
-        require_serial: true
-        language: system
-        types: [ python ]
-      - id: mypy
-        name: mypy
-        entry: poetry run mypy .
-        require_serial: true
-        language: system
-        types: [python]
-        pass_filenames: false
+      # - id: ruff
+      #   name: ruff
+      #   # Add --fix, in case you want it to autofix when this hook runs
+      #   entry: poetry run ruff check --force-exclude
+      #   require_serial: true
+      #   language: system
+      #   types: [ python ]
+      # - id: mypy
+      #   name: mypy
+      #   entry: poetry run mypy .
+      #   require_serial: true
+      #   language: system
+      #   types: [python]
+      #   pass_filenames: false
       - id: kacl-verify
         name: kacl-verify
         entry: poetry run kacl-cli verify

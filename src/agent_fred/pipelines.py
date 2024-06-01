@@ -10,11 +10,11 @@ from haystack_integrations.components.generators.ollama import OllamaGenerator
 
 
 def rag_pipeline(
-        documents: list[Document],
-        prompt_template: str,
-        embedding_kwargs: dict[str, Any] = {},
-        llm_kwargs: dict[str, Any] = {},
-    ) -> Pipeline:
+    documents: list[Document],
+    prompt_template: str,
+    embedding_kwargs: dict[str, Any] = {},
+    llm_kwargs: dict[str, Any] = {},
+) -> Pipeline:
     """create and return rag pipeline"""
     # store documents with embeddings
     document_store = InMemoryDocumentStore()
