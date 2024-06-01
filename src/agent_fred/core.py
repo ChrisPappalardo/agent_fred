@@ -5,7 +5,14 @@ from eparse.interfaces import ExcelParse, i_factory
 from haystack import Document
 
 
+def load_prompt(filename: str) -> str:
+    """load and return prompt template"""
+    with open(filename, "r") as f:
+        return f.read()
+
+
 def xlsx_to_serialized_list(filename: str) -> list[dict[str, Any]]:
+    """parse excel spreadsheet and return serialized list of cells"""
     result = []
     for (
         table, excel_rc, name, sheet,
@@ -19,6 +26,7 @@ def xlsx_to_serialized_list(filename: str) -> list[dict[str, Any]]:
 
 
 def xlsx_to_haystack_docs(filename: str) -> list[Document]:
+    """parse excel spreadsheet and return list of haystack documents"""
     result = []
     for row in xlsx_to_serialized_list(filename):
         content = f"{row['c_header']} and {row['r_header']} is {row['value']}"
@@ -27,7 +35,8 @@ def xlsx_to_haystack_docs(filename: str) -> list[Document]:
     return result
 
 
-def xlsx_to_db(filename: str) -> list[Document]:
+def xlsx_to_db(filename: str) -> None:
+    """parse excel spreadsheet into in-memory sqlite database"""
     db = i_factory("sqlite3:///:memory:", ExcelParse)
     for (
         table, excel_rc, name, sheet,

@@ -9,15 +9,19 @@ from haystack_integrations.components.embedders.ollama import OllamaDocumentEmbe
 from haystack_integrations.components.embedders.ollama import OllamaTextEmbedder
 from haystack_integrations.components.generators.ollama import OllamaGenerator
 
-from agent_fred.core import xlsx_to_haystack_docs
+from agent_fred.core import load_prompt, xlsx_to_haystack_docs
 
 
-if os.environ.get("DEBUG", None) is not None:
+if os.environ.get("RAG_DEBUG", None) is not None:
     logging.basicConfig(format="%(levelname)s - %(name)s -  %(message)s", level=logging.WARNING)
     logging.getLogger("haystack").setLevel(logging.INFO)
 
+prompt_filename = os.environ.get("RAG_PROMPT", "src/agent_fred/rag_prompt.txt")
+
 
 if __name__ == "__main__":
+    print("[rag pipeline]")
+
     # get xlsx filename from user
     filename = input("load path/filename.xlsx: ")
 
@@ -25,25 +29,7 @@ if __name__ == "__main__":
     documents = xlsx_to_haystack_docs(filename)
 
     # create prompt
-    prompt_template = """
-You are a data analyst helping your manager answer some questions
-using tables contained in a spreadsheet.  The tables have been converted
-into sentences where each sentence corresponds to a cell in a table.
-The sentences have the following format:
-<column heading> and <row heading> is <value of the cell>
-
-Your manager has provided you with the following table sentences:
-{% for doc in documents %}
-    {{ doc.content }}
-{% endfor %}
-
-Your manager has asked you to answer the following question based on
-the sentences provided.  Be brief in your response and stick to the
-data contained in the table sentences.  Do not make things up and do
-not elaborate on anything irrelevant to the question.
-Question:  {{ question }}
-Answer:
-"""
+    prompt_template = load_prompt(prompt_filename)
 
     # store documents with embeddings
     document_store = InMemoryDocumentStore()
@@ -72,7 +58,6 @@ Answer:
     # loop for q&a
     while True:
         question = input("Question: ")
-        # result = pipeline.run({"text_embedder": {"text": question}})
         response = pipeline.run({
             "prompt_builder": {"question": question},
             "text_embedder": {"text": question},
