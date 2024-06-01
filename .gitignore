@@ -77,3 +77,6 @@ venv.bak/
 
 # IDEs
 .idea/
+
+# project
+tests/test_data/*.xls

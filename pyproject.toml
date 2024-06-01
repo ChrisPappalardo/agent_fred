@@ -33,6 +33,10 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.8.1, <4.0"
+eparse = "^0.7.3"
+haystack-ai = "^2.1.2"
+xlrd = "^2.0.1"
+ollama-haystack = "^0.0.6"
 
 [tool.poetry.group.dev.dependencies]
 mkdocstrings = {version = ">=0.23", extras = ["python"]}
