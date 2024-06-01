@@ -79,4 +79,3 @@ venv.bak/
 .idea/
 
 # project
-tests/test_data/*.xls
