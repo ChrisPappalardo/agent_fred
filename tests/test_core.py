@@ -1,3 +1,5 @@
+import os
+
 from eparse.interfaces import ExcelParse
 
 from agent_fred.core import (
@@ -6,6 +8,15 @@ from agent_fred.core import (
     xlsx_to_haystack_docs,
     xlsx_to_db,
 )
+
+
+def test_config() -> None:
+    """test config works"""
+    os.environ["RAG_DEBUG"] = "True"
+    from agent_fred.config import config
+
+    assert hasattr(config, "debug")
+    assert config.debug is not False or None
 
 
 def test_load_prompt() -> None:
