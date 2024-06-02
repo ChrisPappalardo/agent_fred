@@ -42,7 +42,8 @@ def rag_pipeline(
     """create and return rag pipeline"""
     # create retrieval pipeline
     pipeline = retrieval_pipeline(
-        documents=documents, embedding_kwargs=embedding_kwargs,
+        documents=documents,
+        embedding_kwargs=embedding_kwargs,
     )
 
     # initialize other haystack components

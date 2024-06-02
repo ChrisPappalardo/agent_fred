@@ -2,11 +2,12 @@ import sys
 from pprint import PrettyPrinter
 
 from agent_fred.config import config
-from agent_fred.core import load_prompt, xlsx_to_haystack_docs
-from agent_fred.pipelines import rag_pipeline
+from agent_fred.core import xlsx_to_haystack_docs
+from agent_fred.pipelines import retrieval_pipeline
 
 
 if __name__ == "__main__":
+    print("retrieval pipeline for q&a on a file using natural language")
     print(f"using {config.embedding_model} embeddings and {config.llm} llm")
 
     # get xlsx filename from user
@@ -20,27 +21,17 @@ if __name__ == "__main__":
         PrettyPrinter().pprint(documents)
 
     # create pipeline
-    pipeline = rag_pipeline(
+    pipeline = retrieval_pipeline(
         documents=documents,
-        prompt_template=load_prompt(config.prompt_filename),
         embedding_kwargs={"model": config.embedding_model},
-        llm_kwargs={
-            "model": config.llm,
-            "generation_kwargs": {"temperature": float(config.temperature)},
-        },
     )
 
     # loop for q&a
     while True:
         try:
             question = input("Question: ")
-            response = pipeline.run(
-                {
-                    "prompt_builder": {"question": question},
-                    "text_embedder": {"text": question},
-                }
-            )
-            print(response["llm"]["replies"][0])
+            response = pipeline.run({"text_embedder": {"text": question}})
+            PrettyPrinter().pprint(response["retriever"]["documents"])
         except KeyboardInterrupt:
             print("exiting...")
             sys.exit(0)
