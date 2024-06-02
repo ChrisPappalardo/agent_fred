@@ -9,13 +9,11 @@ from haystack_integrations.components.embedders.ollama import OllamaTextEmbedder
 from haystack_integrations.components.generators.ollama import OllamaGenerator
 
 
-def rag_pipeline(
+def retrieval_pipeline(
     documents: list[Document],
-    prompt_template: str,
     embedding_kwargs: dict[str, Any] = {},
-    llm_kwargs: dict[str, Any] = {},
 ) -> Pipeline:
-    """create and return rag pipeline"""
+    """create and return retrieval pipeline"""
     # store documents with embeddings
     document_store = InMemoryDocumentStore()
     document_embedder = OllamaDocumentEmbedder(**embedding_kwargs)
@@ -25,16 +23,35 @@ def rag_pipeline(
     # initialize other haystack components
     text_embedder = OllamaTextEmbedder(**embedding_kwargs)
     retriever = InMemoryEmbeddingRetriever(document_store=document_store)
-    prompt_builder = PromptBuilder(template=prompt_template)
-    generator = OllamaGenerator(**llm_kwargs)
 
     # create pipeline
     pipeline = Pipeline()
     pipeline.add_component("text_embedder", text_embedder)
     pipeline.add_component("retriever", retriever)
+    pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
+
+    return pipeline
+
+
+def rag_pipeline(
+    documents: list[Document],
+    prompt_template: str,
+    embedding_kwargs: dict[str, Any] = {},
+    llm_kwargs: dict[str, Any] = {},
+) -> Pipeline:
+    """create and return rag pipeline"""
+    # create retrieval pipeline
+    pipeline = retrieval_pipeline(
+        documents=documents, embedding_kwargs=embedding_kwargs,
+    )
+
+    # initialize other haystack components
+    prompt_builder = PromptBuilder(template=prompt_template)
+    generator = OllamaGenerator(**llm_kwargs)
+
+    # create pipeline
     pipeline.add_component("prompt_builder", prompt_builder)
     pipeline.add_component("llm", generator)
-    pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
     pipeline.connect("retriever", "prompt_builder.documents")
     pipeline.connect("prompt_builder", "llm")
 

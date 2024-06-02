@@ -1,12 +1,23 @@
 from eparse.interfaces import ExcelParse
 
-from agent_fred.core import load_prompt, xlsx_to_haystack_docs, xlsx_to_db
+from agent_fred.core import (
+    load_prompt,
+    xlsx_to_serialized_list,
+    xlsx_to_haystack_docs,
+    xlsx_to_db,
+)
 
 
 def test_load_prompt() -> None:
     """test load rag prompt"""
     prompt = load_prompt("src/agent_fred/prompts/rag.txt")
     assert "helpful" in prompt
+
+
+def test_xlsx_to_serialized_list() -> None:
+    """test xls converts to serialized list"""
+    serialized_list = xlsx_to_serialized_list("tests/test_data/GDPC1_1.xls")
+    assert len(serialized_list) > 0
 
 
 def test_xlsx_to_haystack_docs() -> None:
