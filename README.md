@@ -1,4 +1,4 @@
-# agent_fred
+# Agent FRED
 
 ---
 
