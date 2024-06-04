@@ -9,6 +9,24 @@ from haystack_integrations.components.embedders.ollama import OllamaTextEmbedder
 from haystack_integrations.components.generators.ollama import OllamaGenerator
 
 
+def prompt_pipeline(
+    prompt_template: str,
+    llm_kwargs: dict[str, Any] = {},
+) -> Pipeline:
+    """create and return a single prompt to answer pipeline"""
+    # initialize other components
+    prompt_builder = PromptBuilder(template=prompt_template)
+    generator = OllamaGenerator(**llm_kwargs)
+
+    # create pipeline
+    pipeline = Pipeline()
+    pipeline.add_component("prompt_builder", prompt_builder)
+    pipeline.add_component("llm", generator)
+    pipeline.connect("prompt_builder", "llm")
+
+    return pipeline
+
+
 def retrieval_pipeline(
     documents: list[Document],
     embedding_kwargs: dict[str, Any] = {},

@@ -7,6 +7,7 @@ from agent_fred.pipelines import rag_pipeline
 
 
 if __name__ == "__main__":
+    print("rag pipeline for q&a on a file using natural language")
     print(f"using {config.embedding_model} embeddings and {config.llm} llm")
 
     # get xlsx filename from user
