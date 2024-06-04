@@ -54,6 +54,34 @@ This python app uses environment variables to configure the AI backend and other
   * the LLM to use for chat
   * default: phi3
 
+### Run
+
+The app supports various pipelines from the command line.
+
+#### Retrieval Augmented Generation Pipeline
+
+This pipeline is to chat with a data set (the FRED GDP history by default):
+
+```sh
+python src/agent_fred/rag.py
+```
+
+#### Retrieval Pipeline
+
+This pipeline is for looking up values.
+
+```sh
+python src/agent_fred/retrieval.py
+```
+
+#### Code Pipeline
+
+This pipeline attempts to have the LLM generate executable python code for retrieving data from a data set:
+
+```sh
+python src/agent_fred/code.py
+```
+
 ## Testing
 
 ```sh
