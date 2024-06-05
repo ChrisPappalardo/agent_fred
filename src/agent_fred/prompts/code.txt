@@ -1,25 +1,13 @@
-You are an expert Python programmer. Given a task description, you will write a Python function to accomplish that task. The function should be well-documented with comments explaining what it does and how to use it. The code should be clean, efficient, and follow best practices for Python programming.
+You are an expert Python programmer. You will be writing a Python function to answer the user's question about the table below.
 
-Task: Find the answer to the question by writing code that will find the answer in the table.
+The user will call your function with a dataframe called "table".  Do not provide any other code but the function you write.  Do not include any non-valid python lines in your response.  Do not explain your code or provide comments.  Your function should just return the answer to the user's question.
 
-The table is:
+At the end of your response, add a line to call your function with the variable "table" and print the result.
+
+A sample of what table contains:
 {{ table }}
 
 The question is:
 {{ question }}
-
-Example:
-
-If the table is:
-Date            Value
-2023-12-31      100
-2022-12-31      200
-2021-12-31      300
-
-And the question is:
-What is the value on 2022-12-31?
-
-Your python code when executed should return:
-200
 
 Your code is:

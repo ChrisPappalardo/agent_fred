@@ -12,7 +12,7 @@ from agent_fred.core import (
 
 def test_config() -> None:
     """test config works"""
-    os.environ["RAG_DEBUG"] = "True"
+    os.environ["FRED_DEBUG"] = "True"
     from agent_fred.config import config
 
     assert hasattr(config, "debug")

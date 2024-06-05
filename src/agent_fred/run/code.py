@@ -1,7 +1,10 @@
+import os
+import re
 import sys
 from pprint import PrettyPrinter
 
 from eparse.core import get_df_from_file
+import pandas as pd
 
 from agent_fred.config import config
 from agent_fred.core import load_prompt
@@ -37,10 +40,25 @@ if __name__ == "__main__":
             question = input("Question: ")
 
             for df in dfs:
+                # set up table
+                table = df[0][1:]
+                table.columns = df[0].iloc[0]
+                table.set_index(table.columns[0], inplace=True)
+
+                if config.debug:
+                    PrettyPrinter().pprint(table)
+
                 response = pipeline.run(
-                    {"prompt_builder": {"table": df[0], "question": question}},
+                    {"prompt_builder": {"table": table, "question": question}},
                 )
-                print(response["llm"]["replies"][0])
+                code = response["llm"]["replies"][0]
+                print(code)
+
+                if input("Run [n]? "):
+                    match = re.search("```python(.*)```", code, re.DOTALL)
+                    code = match.group(1) if match else code
+                    exec(code, {"table": table})
+
         except KeyboardInterrupt:
             print("exiting...")
             sys.exit(0)

@@ -15,23 +15,19 @@ config = Config()
 
 # load env vars
 config.debug = os.environ.get(
-    "RAG_DEBUG",
+    "FRED_DEBUG",
     False,
 )
-config.prompt_filename = os.environ.get(
-    "RAG_PROMPT",
-    "src/agent_fred/prompts/rag.txt",
-)
 config.embedding_model = os.environ.get(
-    "RAG_EMBEDDINGS",
+    "FRED_EMBEDDINGS",
     "phi3",
 )
 config.llm = os.environ.get(
-    "RAG_LLM",
+    "FRED_LLM",
     "phi3",
 )
 config.temperature = os.environ.get(
-    "RAG_TEMPERATURE",
+    "FRED_TEMPERATURE",
     0.0,
 )
 

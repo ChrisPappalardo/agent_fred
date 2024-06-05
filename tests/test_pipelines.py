@@ -1,6 +1,17 @@
 from haystack import Pipeline
 
-from agent_fred.pipelines import retrieval_pipeline, rag_pipeline
+from agent_fred.pipelines import (
+    prompt_pipeline,
+    retrieval_pipeline,
+    rag_pipeline,
+)
+
+
+def test_prompt_pipeline() -> None:
+    """test that prompt pipeline can be instantiated"""
+    prompt_template = "test {{ question }}"
+    pipeline = prompt_pipeline(prompt_template=prompt_template)
+    assert isinstance(pipeline, Pipeline)
 
 
 def test_retrieval_pipeline() -> None:
