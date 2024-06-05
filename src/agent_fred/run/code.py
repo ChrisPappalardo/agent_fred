@@ -1,10 +1,8 @@
-import os
 import re
 import sys
 from pprint import PrettyPrinter
 
 from eparse.core import get_df_from_file
-import pandas as pd
 
 from agent_fred.config import config
 from agent_fred.core import load_prompt
@@ -12,7 +10,7 @@ from agent_fred.pipelines import prompt_pipeline
 
 
 if __name__ == "__main__":
-    print("retrieval pipeline for search on a file using natural language")
+    print("code interpreter pipeline for q&a on an excel table using nlp")
     print(f"using {config.embedding_model} embeddings and {config.llm} llm")
 
     # get xlsx filename from user
