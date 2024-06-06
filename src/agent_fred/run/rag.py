@@ -23,7 +23,7 @@ if __name__ == "__main__":
     # create pipeline
     pipeline = rag_pipeline(
         documents=documents,
-        prompt_template=load_prompt(config.prompt_filename),
+        prompt_template=load_prompt("src/agent_fred/prompts/rag.txt"),
         embedding_kwargs={"model": config.embedding_model},
         llm_kwargs={
             "model": config.llm,
