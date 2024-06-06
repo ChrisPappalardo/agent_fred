@@ -1,3 +1,6 @@
+import json
+import pandas as pd
+import requests
 from typing import Any
 
 from eparse.core import df_serialize_table, get_df_from_file
@@ -58,3 +61,23 @@ def xlsx_to_db(filename: str) -> None:
                 f_name=filename,
             ),
         )
+
+
+def get_fred_data_series(
+    api_key: str,
+    series_id: str,
+    file_type: str,
+    start_date: str,
+    end_date: str,
+) -> pd.DataFrame:
+    """function to get fred data series into a dataframe to convert to excel if
+    desired"""
+    url = (
+        f"https://api.stlouisfed.org/fred/series/observations?series_id="
+        f"{series_id}&realtime_start={start_date}&realtime_end={end_date}&api_key"
+        f"={api_key}&file_type={file_type}"
+    )
+    r = requests.get(url)
+    with open("fred_data.json", "w") as f:
+        json.dump(r.json(), f)
+    return pd.read_json("fred_data.json")
