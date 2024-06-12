@@ -153,7 +153,7 @@ def fred_chat_pipeline(
     api_key: str,
     agent_llm_kwargs: dict[str, Any] = {},
     chat_llm_kwargs: dict[str, Any] = {},
-) -> tuple[Pipeline, InMemoryDocumentStore, OllamaDocumentEmbedder]:
+) -> tuple[Pipeline, InMemoryDocumentStore]:
     """create and return fred chat pipeline and document store"""
 
     chat_prompt_builder_template = [
